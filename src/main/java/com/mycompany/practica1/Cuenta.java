@@ -9,7 +9,7 @@ package com.mycompany.practica1;
  * @author Jose
  */
 
-public abstract class Cuenta {
+public abstract class Cuenta implements Comparable<Cuenta>{
     protected int numero;
     protected String fechaApertura;
     protected double saldo;
@@ -19,6 +19,11 @@ public abstract class Cuenta {
         this.numero = numero;
         this.fechaApertura = fechaApertura;
         this.saldo = saldo;
+    }
+    // Implementación de compareTo para ordenar por saldo
+    @Override
+    public int compareTo(Cuenta otraCuenta) {
+        return Double.compare(this.saldo, otraCuenta.getSaldo());
     }
 
     public int getNumero() {

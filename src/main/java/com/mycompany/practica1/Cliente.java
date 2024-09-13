@@ -3,14 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.practica1;
+
 import java.util.ArrayList;
+
 /**
  *
  * @author Jose
  */
-
-
-public class Cliente implements ServicioCuentas {
+public class Cliente implements Comparable<Cliente> {
 
     private int numero;
     private String nombre;
@@ -98,17 +98,16 @@ public class Cliente implements ServicioCuentas {
                 + '}';
     }
 
-    @Override
     public boolean agregarCuenta(Cuenta cuenta) {
         return cuentas.add(cuenta);
     }
 
-    @Override
+   
     public boolean cancelarCuenta(int numero) {
         return cuentas.removeIf(cuenta -> cuenta.getNumero() == numero);
     }
 
-    @Override
+    
     public void abonarCuenta(int numero, double abono) {
         for (Cuenta cuenta : cuentas) {
             if (cuenta.getNumero() == numero) {
@@ -118,7 +117,7 @@ public class Cliente implements ServicioCuentas {
         }
     }
 
-    @Override
+   
     public void retirar(int numero, double retiro) {
         for (Cuenta cuenta : cuentas) {
             if (cuenta.getNumero() == numero) {
@@ -128,9 +127,14 @@ public class Cliente implements ServicioCuentas {
         }
     }
 
-    @Override
-    public Cuenta[] obtenerCuentas() {
-        return cuentas.toArray(new Cuenta[0]);
+    
+    public ArrayList<Cuenta> obtenerCuentas() {
+        return cuentas;
     }
 
+    // Implementación de compareTo para ordenar por número de cliente
+    @Override
+    public int compareTo(Cliente otroCliente) {
+        return Integer.compare(this.numero, otroCliente.getNumero());
+    }
 }
