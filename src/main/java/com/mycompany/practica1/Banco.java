@@ -10,7 +10,8 @@ package com.mycompany.practica1;
  */
 import java.util.ArrayList;
 
-public class Banco {
+public class Banco implements ServicioClientes {
+
     private String nombre;
     private Domicilio domicilio;
     private String rfc;
@@ -67,12 +68,46 @@ public class Banco {
 
     @Override
     public String toString() {
-        return "Banco{" +
-                "nombre='" + nombre + '\'' +
-                ", domicilio=" + domicilio +
-                ", rfc='" + rfc + '\'' +
-                ", telefono='" + telefono + '\'' +
-                '}';
+        return "Banco{"
+                + "nombre='" + nombre + '\''
+                + ", domicilio=" + domicilio
+                + ", rfc='" + rfc + '\''
+                + ", telefono='" + telefono + '\''
+                + '}';
+    }
+
+    @Override
+    public boolean agregarCliente(Cliente cliente) {
+        return clientes.add(cliente);
+    }
+
+    @Override
+    public boolean eliminarCliente(int numero) {
+        return clientes.removeIf(cliente -> cliente.getNumero() == numero);
+    }
+
+    @Override
+    public Cliente consultaCliente(int numero) {
+        for (Cliente cliente : clientes) {
+            if (cliente.getNumero() == numero) {
+                return cliente;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Cliente[] obtenerClientes() {
+        return clientes.toArray(new Cliente[0]);
+    }
+
+    @Override
+    public Cliente buscarClientePorRFC(String rfc) {
+        for (Cliente cliente : clientes) {
+            if (cliente.getRfc().equals(rfc)) {
+                return cliente;
+            }
+        }
+        return null;
     }
 }
-

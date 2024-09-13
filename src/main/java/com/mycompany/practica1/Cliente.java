@@ -3,15 +3,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.practica1;
-
+import java.util.ArrayList;
 /**
  *
  * @author Jose
  */
 
-import java.util.ArrayList;
 
-public class Cliente {
+public class Cliente implements ServicioCuentas {
+
     private int numero;
     private String nombre;
     private Domicilio domicilio;
@@ -88,13 +88,49 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return "Cliente{" +
-                "numero=" + numero +
-                ", nombre='" + nombre + '\'' +
-                ", domicilio=" + domicilio +
-                ", rfc='" + rfc + '\'' +
-                ", telefono='" + telefono + '\'' +
-                ", fechaNacimiento='" + fechaNacimiento + '\'' +
-                '}';
+        return "Cliente{"
+                + "numero=" + numero
+                + ", nombre='" + nombre + '\''
+                + ", domicilio=" + domicilio
+                + ", rfc='" + rfc + '\''
+                + ", telefono='" + telefono + '\''
+                + ", fechaNacimiento='" + fechaNacimiento + '\''
+                + '}';
     }
+
+    @Override
+    public boolean agregarCuenta(Cuenta cuenta) {
+        return cuentas.add(cuenta);
+    }
+
+    @Override
+    public boolean cancelarCuenta(int numero) {
+        return cuentas.removeIf(cuenta -> cuenta.getNumero() == numero);
+    }
+
+    @Override
+    public void abonarCuenta(int numero, double abono) {
+        for (Cuenta cuenta : cuentas) {
+            if (cuenta.getNumero() == numero) {
+                cuenta.setSaldo(cuenta.getSaldo() + abono);
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void retirar(int numero, double retiro) {
+        for (Cuenta cuenta : cuentas) {
+            if (cuenta.getNumero() == numero) {
+                cuenta.setSaldo(cuenta.getSaldo() - retiro);
+                return;
+            }
+        }
+    }
+
+    @Override
+    public Cuenta[] obtenerCuentas() {
+        return cuentas.toArray(new Cuenta[0]);
+    }
+
 }
