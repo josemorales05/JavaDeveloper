@@ -10,7 +10,6 @@ import java.util.ArrayList;
  * @author Jose
  */
 
-
 import java.util.Collections;
 
 public class main {
@@ -20,14 +19,40 @@ public class main {
         
         // Crear el banco
         Banco banco = new Banco("Banco Mundial", bancoDomicilio, "AAA111", "32015489");
-        
+       
+       
         // Crear domicilios y clientes
         Domicilio domicilioCliente1 = new Domicilio("Calle 20", 15, "Barrio Suba", "Bogota", 123456);
         Domicilio domicilioCliente2 = new Domicilio("Calle 40", 30, "Barrio Colina", "Bogota", 654321);
 
-        Cliente cliente1 = new Cliente(1, "Jose Morales", domicilioCliente1, "Jose555RFC", "123456", "09/09/1993");
-        Cliente cliente2 = new Cliente(2, "Angie Garcia", domicilioCliente2, "Angie4444RFC", "654321", "04/04/1995");
-        Cliente cliente3 = new Cliente(3, "Pedro Loaisa", domicilioCliente1, "Pedro7890RFC", "541875", "11/11/1999");
+        
+        Cliente cliente1 = new Cliente.Builder()
+                .numero(3)
+                .nombre("Jony sanchez")
+                .domicilio(domicilioCliente1)
+                .rfc("Jony12345RFC")
+                .telefono("3250125551")
+                .fechaNacimiento("05/08/1990")
+                .build();
+        
+        Cliente cliente2 = new Cliente.Builder()
+                .numero(1)
+                .nombre("Marcela mora")
+                .domicilio(domicilioCliente2)
+                .rfc("Marcela123467RFC")
+                .telefono("3052222255")
+                .fechaNacimiento("07/03/1995")
+                .build();
+        
+         Cliente cliente3 = new Cliente.Builder()
+                .numero(2)
+                .nombre("evan rosales")
+                .domicilio(domicilioCliente1)
+                .rfc("Evan54321RFC")
+                .telefono("3105233534")
+                .fechaNacimiento("03/09/2000")
+                .build();
+        
 
         // Agregar clientes al banco
         banco.agregarCliente(cliente1);
@@ -48,17 +73,22 @@ public class main {
         // Ordenar clientes por número
         ArrayList<Cliente> clientes = new ArrayList<>(banco.getClientes());
         Collections.sort(clientes);
-        System.out.println("Clientes ordenados por número:");
+        System.out.println("Clientes ordenados por numero:");
         for (Cliente cliente : clientes) {
             System.out.println(cliente);
         }
 
+       System.out.println("Clientes ordenados con metodo Builder:");
         // Ordenar cuentas de un cliente por saldo
-        ArrayList<Cuenta> cuentasCliente1 = new ArrayList<>(cliente1.obtenerCuentas());
-        Collections.sort(cuentasCliente1);
-        System.out.println("Cuentas de Pedro Loaisa ordenadas por saldo:");
-        for (Cuenta cuenta : cuentasCliente1) {
-            System.out.println(cuenta);
+      //  ArrayList<Cuenta> cuentasCliente1 = new ArrayList<>(cliente1.obtenerCuentas());
+      //  Collections.sort(cuentasCliente1);
+      //  System.out.println("Cuentas de Pedro Loaisa ordenadas por saldo:");
+      //  for (Cuenta cuenta : cuentasCliente1) {
+       //     System.out.println(cuenta);
+       // }
+        //Imprimir clientes
+        for (Cliente cliente : banco.getClientes()) {
+            System.out.println(cliente);
         }
     }
 }
