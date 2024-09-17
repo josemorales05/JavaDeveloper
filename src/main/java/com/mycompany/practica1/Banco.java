@@ -88,12 +88,10 @@ public class Banco implements ServicioClientes {
 
     @Override
     public Cliente consultaCliente(int numero) {
-        for (Cliente cliente : clientes) {
-            if (cliente.getNumero() == numero) {
-                return cliente;
-            }
-        }
-        return null;
+        return clientes.stream()
+                .filter(cliente -> cliente.getNumero() == numero)
+                .findFirst()
+                .orElse(null);
     }
 
     @Override
@@ -103,11 +101,9 @@ public class Banco implements ServicioClientes {
 
     @Override
     public Cliente buscarClientePorRFC(String rfc) {
-        for (Cliente cliente : clientes) {
-            if (cliente.getRfc().equals(rfc)) {
-                return cliente;
-            }
-        }
-        return null;
+        return clientes.stream()
+                .filter(cliente -> cliente.getRfc().equals(rfc))
+                .findFirst()
+                .orElse(null);
     }
 }

@@ -3,7 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
 package com.mycompany.practica1;
-import com.mycompany.practica1.InterfacesFuncionales.Interfaz1;
+
+/*import com.mycompany.practica1.InterfacesFuncionales.Interfaz1;
 import com.mycompany.practica1.InterfacesFuncionales.Interfaz2;
 import com.mycompany.practica1.InterfacesFuncionales.Interfaz3;
 import com.mycompany.practica1.InterfacesFuncionales.Interfaz4;
@@ -12,98 +13,59 @@ import com.mycompany.practica1.InterfacesFuncionales.Interfaz6;
 import com.mycompany.practica1.InterfacesFuncionales.Interfaz7;
 import com.mycompany.practica1.InterfacesFuncionales.Interfaz8;
 import com.mycompany.practica1.InterfacesFuncionales.Interfaz9;
-import com.mycompany.practica1.InterfacesFuncionales.Interfaz10;
+import com.mycompany.practica1.InterfacesFuncionales.Interfaz10;*/
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  *
  * @author Jose
  */
-
-import java.util.Collections;
-
 public class main {
+
     public static void main(String[] args) {
         // Crear un domicilio para el banco
-   /*      Domicilio bancoDomicilio = new Domicilio("Centro", 6547, "SUR", "Bogota", 7412589);
-        
+        Domicilio bancoDomicilio = new Domicilio("Centro", 6547, "SUR", "Bogota", 7412589);
+
         // Crear el banco
         Banco banco = new Banco("Banco Mundial", bancoDomicilio, "AAA111", "32015489");
-       
-       
-        // Crear domicilios y clientes
-        Domicilio domicilioCliente1 = new Domicilio("Calle 20", 15, "Barrio Suba", "Bogota", 123456);
-        Domicilio domicilioCliente2 = new Domicilio("Calle 40", 30, "Barrio Colina", "Bogota", 654321);
 
-        
-        Cliente cliente1 = new Cliente.Builder()
-                .numero(3)
-                .nombre("Jony sanchez")
-                .domicilio(domicilioCliente1)
-                .rfc("Jony12345RFC")
-                .telefono("3250125551")
-                .fechaNacimiento("05/08/1990")
-                .build();
-        
-        Cliente cliente2 = new Cliente.Builder()
-                .numero(1)
-                .nombre("Marcela mora")
-                .domicilio(domicilioCliente2)
-                .rfc("Marcela123467RFC")
-                .telefono("3052222255")
-                .fechaNacimiento("07/03/1995")
-                .build();
-        
-         Cliente cliente3 = new Cliente.Builder()
-                .numero(2)
-                .nombre("evan rosales")
-                .domicilio(domicilioCliente1)
-                .rfc("Evan54321RFC")
-                .telefono("3105233534")
-                .fechaNacimiento("03/09/2000")
-                .build();
-        
+        // Crear domicilios y clientes
+        Domicilio domicilioCliente1 = new Domicilio("Calle 50", 15, "Barrio Suba", "Bogota", 123456);
+        Domicilio domicilioCliente2 = new Domicilio("Calle 80", 30, "Barrio Colina", "Bogota", 654321);
+
+        //Agregar Clientes
+        Cliente cliente1 = new Cliente(1, "Jose Morales", domicilioCliente1, "JOSE321RFC", "32154", new ArrayList<>(), "08/09/2000");
+        Cliente cliente2 = new Cliente(2, "Angie Montoya", domicilioCliente2, "ANGIE987RFC", "31245", new ArrayList<>(), "02/10/2002");
 
         // Agregar clientes al banco
         banco.agregarCliente(cliente1);
         banco.agregarCliente(cliente2);
-        banco.agregarCliente(cliente3);
 
-        // Crear cuentas para los clientes
-        CuentaDeAhorros cuentaAhorros1 = new CuentaDeAhorros(1234, "08/07/2019", 7000.0, 0.05);
-        CuentaDeCheque cuentaCheque1 = new CuentaDeCheque(4321, "01/09/2024", 4000.0, 60.0);
-        cliente1.agregarCuenta(cuentaAhorros1);
-        cliente1.agregarCuenta(cuentaCheque1);
+        // Agregar cuentas a los clientes
+        cliente1.agregarCuenta(new CuentaDeAhorros(123, "02/07/2020", 5000, 0.08));
+        cliente2.agregarCuenta(new CuentaDeCheque(321, "05/08/2022", 1000, 10.0));
 
-        CuentaDeAhorros cuentaAhorros2 = new CuentaDeAhorros(12342, "08/05/2020", 20000.0, 0.08);
-        CuentaDeCheque cuentaCheque2 = new CuentaDeCheque(43212, "01/07/2024", 6000.0, 85.0);
-        cliente2.agregarCuenta(cuentaAhorros2);
-        cliente2.agregarCuenta(cuentaCheque2);
+        // Probar consulta de cliente por número usando Stream
+        Cliente clienteConsultado = banco.consultaCliente(1);
+        System.out.println("Cliente consultado: " + clienteConsultado.getNombre());
 
-        // Ordenar clientes por número
-        ArrayList<Cliente> clientes = new ArrayList<>(banco.getClientes());
-        Collections.sort(clientes);
-        System.out.println("Clientes ordenados por numero:");
-        for (Cliente cliente : clientes) {
-            System.out.println(cliente);
-        }
+        // Probar abonar en una cuenta usando Stream
+        cliente1.abonarCuenta(123, 2000);
+        System.out.println("Nuevo saldo cuenta 123: " + cliente1.obtenerCuentas()[0].getSaldo());
 
-       System.out.println("Clientes ordenados con metodo Builder:");
-        // Ordenar cuentas de un cliente por saldo
-      //  ArrayList<Cuenta> cuentasCliente1 = new ArrayList<>(cliente1.obtenerCuentas());
-      //  Collections.sort(cuentasCliente1);
-      //  System.out.println("Cuentas de Pedro Loaisa ordenadas por saldo:");
-      //  for (Cuenta cuenta : cuentasCliente1) {
-       //     System.out.println(cuenta);
-       // }
-        //Imprimir clientes
-        for (Cliente cliente : banco.getClientes()) {
-            System.out.println(cliente);
-        } */
-    
-      
-        // 1. Interfaz1: Lambda que imprime los valores.
-        Interfaz1 interfaz1 = (int a, String b, float c) -> {
+        // Probar retiro en una cuenta usando Stream
+        cliente2.retirar(321, 800);
+        System.out.println("Nuevo saldo cuenta 321: " + cliente2.obtenerCuentas()[0].getSaldo());
+
+        // Buscar cliente por RFC usando Stream
+        Cliente clientePorRFC = banco.buscarClientePorRFC("JOSE321RFC");
+        System.out.println("Cliente encontrado por RFC: " + clientePorRFC.getNombre());
+    }
+}
+
+// 1. Interfaz1: Lambda que imprime los valores.
+/*   Interfaz1 interfaz1 = (int a, String b, float c) -> {
             System.out.println("Interfaz1 - int: " + a + ", String: " + b + ", float: " + c);
         };
         interfaz1.metodo(5, "Hola Jose", 5.50f);
@@ -152,4 +114,4 @@ public class main {
         String resultado10 = interfaz10.metodo(100, 'J', 10.0f);
         System.out.println("Interfaz10 - Resultado: " + resultado10);
     }
-}
+}*/
