@@ -16,6 +16,8 @@ import com.mycompany.practica1.InterfacesFuncionales.Interfaz9;
 import com.mycompany.practica1.InterfacesFuncionales.Interfaz10;*/
 import java.util.ArrayList;
 import java.util.Collections;
+import java.io.*;
+import java.util.*;
 
 /**
  *
@@ -24,7 +26,75 @@ import java.util.Collections;
 public class main {
 
     public static void main(String[] args) {
-        // Crear un domicilio para el banco
+        
+        // Crear clientes
+        Cliente cliente1 = new Cliente(1, "Jose Morales", new Domicilio("Calle 1", 10, "Colonia A", "Bogota", 67890), "Jose123RFC", "321551111", new ArrayList<>(), "05/05/2000");
+        Cliente cliente2 = new Cliente(2, "Angie Montoya", new Domicilio("Calle 2", 20, "Colonia B", "Medellin", 54321), "Angie123RFC", "32054225", new ArrayList<>(), "03/02/2002");
+        Cliente cliente3 = new Cliente(3, "Carlos Perez", new Domicilio("Calle 3", 30, "Colonia C", "Amazonas", 12345), "Carlos123RFC", "31025487", new ArrayList<>(), "08/10/2003");
+
+        // Lista de clientes
+        List<Cliente> clientes = Arrays.asList(cliente1, cliente2, cliente3);
+
+        // Leer el archivo de cuentas
+        String archivoCuentas = "src/main/java/Resource/cuentas.txt";
+        try (BufferedReader br = new BufferedReader(new FileReader(archivoCuentas))) {
+            String linea;
+           
+            while ((linea = br.readLine()) != null) {
+                // Separar los campos de la línea leída
+                String[] datosCuenta = linea.split(",");
+                String tipoCuenta = datosCuenta[0];
+                int numeroCuenta = Integer.parseInt(datosCuenta[1]);
+                String fechaApertura = datosCuenta[2];
+                double saldo = Double.parseDouble(datosCuenta[3]);
+                double tasaOCosto = Double.parseDouble(datosCuenta[4]);
+                int numeroCliente = Integer.parseInt(datosCuenta[5]);
+
+                // Buscar el cliente por número
+                Cliente cliente = clientes.stream()
+                        .filter(c -> c.getNumero() == numeroCliente)
+                        .findFirst()
+                        .orElse(null);
+
+                if (cliente != null) {
+                    // Crear la cuenta correspondiente
+                    Cuenta cuenta;
+                    if (tipoCuenta.equals("CA")) {
+                        cuenta = new CuentaDeAhorros(numeroCuenta, fechaApertura, saldo, tasaOCosto);
+                    } else {
+                        cuenta = new CuentaDeCheque(numeroCuenta, fechaApertura, saldo, tasaOCosto);
+                    }
+
+                    // Asignar la cuenta al cliente
+                    cliente.agregarCuenta(cuenta);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error leyendo el archivo de cuentas: " + e.getMessage());
+        }
+
+        // Validar que cada cliente tenga las cuentas correctas
+        System.out.println("Cuentas del cliente 1: " + cliente1.obtenerCuentas().length);
+        System.out.println("Cuentas del cliente 2: " + cliente2.obtenerCuentas().length);
+        System.out.println("Cuentas del cliente 3: " + cliente3.obtenerCuentas().length);
+
+        // Imprimir las cuentas de cada cliente
+        imprimirCuentasCliente(cliente1);
+        imprimirCuentasCliente(cliente2);
+        imprimirCuentasCliente(cliente3);
+    }
+
+    // Método para imprimir las cuentas de un cliente
+    public static void imprimirCuentasCliente(Cliente cliente) {
+        System.out.println("Cuentas del cliente " + cliente.getNombre() + ":");
+        for (Cuenta cuenta : cliente.obtenerCuentas()) {
+            System.out.println(cuenta.toString());
+        }
+    }
+}
+ 
+        
+     /*   // Crear un domicilio para el banco
         Domicilio bancoDomicilio = new Domicilio("Centro", 6547, "SUR", "Bogota", 7412589);
 
         // Crear el banco
