@@ -3,6 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.practica1;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 
 /**
  *
@@ -11,8 +14,8 @@ package com.mycompany.practica1;
 public class CuentaDeCheque extends Cuenta {
     private double costoManejoMensual;
 
-    public CuentaDeCheque(int numero, String fechaApertura, double saldo, double costoManejoMensual) {
-        super(numero, fechaApertura, saldo);
+    public CuentaDeCheque(int numero, LocalDate fechaApertura, double saldo, LocalDate fechaCancelacion,double costoManejoMensual) {
+        super(numero, fechaApertura, saldo, fechaCancelacion);
         this.costoManejoMensual = costoManejoMensual;
     }
 
@@ -26,12 +29,12 @@ public class CuentaDeCheque extends Cuenta {
 
     @Override
     public String toString() {
-        return "CuentaDeCheque{" +
-                "costoManejoMensual=" + costoManejoMensual +
-                ", numero=" + numero +
-                ", fechaApertura='" + fechaApertura + '\'' +
-                ", saldo=" + saldo +
-                '}';
+        return "CuentaDeCheque{" + "costoManejoMensual=" + costoManejoMensual + '}';
     }
+
+     
+
+
+ 
 }
 

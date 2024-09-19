@@ -4,15 +4,19 @@
  */
 package com.mycompany.practica1;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 /**
  *
  * @author Jose
  */
 public class CuentaDeAhorros extends Cuenta {
+
     private double tasaInteresMensual;
 
-    public CuentaDeAhorros(int numero, String fechaApertura, double saldo, double tasaInteresMensual) {
-        super(numero, fechaApertura, saldo);
+    public CuentaDeAhorros(int numero, LocalDate fechaApertura, double saldo, LocalDate fechaCancelacion,double tasaInteresMensual) {
+        super(numero, fechaApertura, saldo, fechaCancelacion);
         this.tasaInteresMensual = tasaInteresMensual;
     }
 
@@ -24,18 +28,20 @@ public class CuentaDeAhorros extends Cuenta {
         this.tasaInteresMensual = tasaInteresMensual;
     }
 
+  
+
+
     public double calcularInteres() {
         return saldo * tasaInteresMensual;
     }
 
     @Override
     public String toString() {
-        return "CuentaDeAhorros{" +
-                "tasaInteresMensual=" + tasaInteresMensual +
-                ", numero=" + numero +
-                ", fechaApertura='" + fechaApertura + '\'' +
-                ", saldo=" + saldo +
-                '}';
+        return "CuentaDeAhorros{" + "tasaInteresMensual=" + tasaInteresMensual + '}';
     }
-}
 
+   
+
+   
+
+}

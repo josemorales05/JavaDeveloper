@@ -3,14 +3,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.practica1;
-
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
  *
  * @author Jose
  */
-public class Cliente implements ServicioCuentas {
+public class Cliente {
 
     private int numero;
     private String nombre;
@@ -18,15 +19,15 @@ public class Cliente implements ServicioCuentas {
     private String rfc;
     private String telefono;
     private ArrayList<Cuenta> cuentas;
-    private String fechaNacimiento;
+    private LocalDate fechaNacimiento;
 
-    public Cliente(int numero, String nombre, Domicilio domicilio, String rfc, String telefono, ArrayList<Cuenta> cuentas, String fechaNacimiento) {
+    public Cliente(int numero, String nombre, Domicilio domicilio, String rfc, String telefono, ArrayList<Cuenta> cuentas, LocalDate fechaNacimiento) {
         this.numero = numero;
         this.nombre = nombre;
         this.domicilio = domicilio;
         this.rfc = rfc;
         this.telefono = telefono;
-        this.cuentas = cuentas;
+        this.cuentas = new ArrayList<>();
         this.fechaNacimiento = fechaNacimiento;
     }
 
@@ -78,37 +79,33 @@ public class Cliente implements ServicioCuentas {
         this.cuentas = cuentas;
     }
 
-    public String getFechaNacimiento() {
+    public LocalDate getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(String fechaNacimiento) {
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
     @Override
     public String toString() {
-        return "Cliente{"
-                + "numero=" + numero
-                + ", nombre='" + nombre + '\''
-                + ", domicilio=" + domicilio
-                + ", rfc='" + rfc + '\''
-                + ", telefono='" + telefono + '\''
-                + ", fechaNacimiento='" + fechaNacimiento + '\''
-                + '}';
+        return "Cliente{" + "numero=" + numero + ", nombre=" + nombre + ", domicilio=" + domicilio + ", rfc=" + rfc + ", telefono=" + telefono + ", cuentas=" + cuentas + ", fechaNacimiento=" + fechaNacimiento + '}';
     }
 
-        @Override
+ 
+
+    
+ 
         public boolean agregarCuenta(Cuenta cuenta) {
         return cuentas.add(cuenta);
         }
 
-        @Override
+        
         public boolean cancelarCuenta(int numero) {
         return cuentas.removeIf(cuenta -> cuenta.getNumero() == numero);
         }
 
-        @Override
+        
         public void abonarCuenta(int numero, double abono) {
         cuentas.stream()
                     .filter(cuenta -> cuenta.getNumero() == numero)
@@ -116,7 +113,7 @@ public class Cliente implements ServicioCuentas {
                     .ifPresent(cuenta -> cuenta.setSaldo(cuenta.getSaldo() + abono));
         }
 
-        @Override
+        
         public void retirar(int numero, double retiro) {
         cuentas.stream()
                     .filter(cuenta -> cuenta.getNumero() == numero)
@@ -124,7 +121,7 @@ public class Cliente implements ServicioCuentas {
                     .ifPresent(cuenta -> cuenta.setSaldo(cuenta.getSaldo() - retiro));
         }
 
-        @Override
+        
         public Cuenta[] obtenerCuentas() {
         return cuentas.toArray(new Cuenta[0]);
         }

@@ -14,10 +14,16 @@ import com.mycompany.practica1.InterfacesFuncionales.Interfaz7;
 import com.mycompany.practica1.InterfacesFuncionales.Interfaz8;
 import com.mycompany.practica1.InterfacesFuncionales.Interfaz9;
 import com.mycompany.practica1.InterfacesFuncionales.Interfaz10;*/
-import java.util.ArrayList;
 import java.util.Collections;
 import java.io.*;
 import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 /**
  *
@@ -26,29 +32,73 @@ import java.util.*;
 public class main {
 
     public static void main(String[] args) {
-        
-        // Crear clientes
-        Cliente cliente1 = new Cliente(1, "Jose Morales", new Domicilio("Calle 1", 10, "Colonia A", "Bogota", 67890), "Jose123RFC", "321551111", new ArrayList<>(), "05/05/2000");
-        Cliente cliente2 = new Cliente(2, "Angie Montoya", new Domicilio("Calle 2", 20, "Colonia B", "Medellin", 54321), "Angie123RFC", "32054225", new ArrayList<>(), "03/02/2002");
-        Cliente cliente3 = new Cliente(3, "Carlos Perez", new Domicilio("Calle 3", 30, "Colonia C", "Amazonas", 12345), "Carlos123RFC", "31025487", new ArrayList<>(), "08/10/2003");
 
-        // Lista de clientes
-        List<Cliente> clientes = Arrays.asList(cliente1, cliente2, cliente3);
+         // Crear clientes
+        Cliente cliente1 = new Cliente(1,"cliente 1",new Domicilio("calle 30",100,"bogota","estado 1",2133),"RFC2","554545",null,LocalDate.of(1991,6,21));
+        Cliente cliente2 = new Cliente(2, "Cliente 2", new Domicilio("Calle 40", 200, "medellin", "Estado 2", 23456), "RFC2", "0987654321",null, LocalDate.of(1990, 6, 20));
+        Cliente cliente3 = new Cliente(3, "Cliente 3", new Domicilio("Calle 50", 300, "Cali", "Estado 3", 34567), "RFC3", "1122334455",null, LocalDate.of(1975, 7, 25));
 
-        // Leer el archivo de cuentas
-        String archivoCuentas = "src/main/java/Resource/cuentas.txt";
-        try (BufferedReader br = new BufferedReader(new FileReader(archivoCuentas))) {
+        // Leer cuentas desde el archivo y asignarlas a los clientes (simulado)
+        List<Cuenta> cuentas = leerCuentasDesdeArchivo(); // Implementar método para leer cuentas como en el ejemplo anterior
+
+        // Asignar cuentas a los clientes
+        cliente1.getCuentas().add(cuentas.get(0)); // Ejemplo de asignación
+        cliente2.getCuentas().add(cuentas.get(1)); // Asignar más cuentas a cada cliente
+        cliente3.getCuentas().add(cuentas.get(2));
+
+        // Mostrar clientes y cuentas
+        System.out.println(cliente1);
+        System.out.println(cliente2);
+        System.out.println(cliente3);
+    }
+
+  
+    
+     // Paso 2: Método para leer el archivo de cuentas y convertir fechas a LocalDate
+    public static List<Cuenta> leerCuentasDesdeArchivo() {
+        List<Cuenta> cuentas = new ArrayList<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        try (BufferedReader br = new BufferedReader(new FileReader("src\\main\\java\\Resource\\cuentas.txt"))) {
             String linea;
-           
             while ((linea = br.readLine()) != null) {
-                // Separar los campos de la línea leída
-                String[] datosCuenta = linea.split(",");
-                String tipoCuenta = datosCuenta[0];
+                // Asumimos que la línea está separada por comas
+                String[] partes = linea.split(",");
+                
+                String tipoCuenta = partes[0];
+                int numero = Integer.parseInt(partes[1]);
+                LocalDate fechaApertura = LocalDate.parse(partes[2], formatter);
+                double saldo = Double.parseDouble(partes[3]);
+
+                // Si es Cuenta de Ahorros
+                if (tipoCuenta.equals("CA")) {
+                    double tasaInteresMensual = Double.parseDouble(partes[4]);
+                    CuentaDeAhorros cuenta = new CuentaDeAhorros(numero, fechaApertura, saldo, null, tasaInteresMensual);
+                    cuentas.add(cuenta);
+                } 
+                // Si es Cuenta de Cheque
+                else if (tipoCuenta.equals("CC")) {
+                    double costoManejoMensual = Double.parseDouble(partes[4]);
+                    CuentaDeCheque cuenta = new CuentaDeCheque(numero, fechaApertura, saldo, null, costoManejoMensual);
+                    cuentas.add(cuenta);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error leyendo el archivo de cuentas: " + e.getMessage());
+        }
+
+        return cuentas;
+    }
+}
+
+
+/*      String tipoCuenta = datosCuenta[0];
                 int numeroCuenta = Integer.parseInt(datosCuenta[1]);
                 String fechaApertura = datosCuenta[2];
                 double saldo = Double.parseDouble(datosCuenta[3]);
                 double tasaOCosto = Double.parseDouble(datosCuenta[4]);
                 int numeroCliente = Integer.parseInt(datosCuenta[5]);
+
 
                 // Buscar el cliente por número
                 Cliente cliente = clientes.stream()
@@ -90,11 +140,8 @@ public class main {
         for (Cuenta cuenta : cliente.obtenerCuentas()) {
             System.out.println(cuenta.toString());
         }
-    }
-}
- 
-        
-     /*   // Crear un domicilio para el banco
+    }   */
+ /*   // Crear un domicilio para el banco
         Domicilio bancoDomicilio = new Domicilio("Centro", 6547, "SUR", "Bogota", 7412589);
 
         // Crear el banco

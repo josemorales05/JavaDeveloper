@@ -3,25 +3,32 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.practica1;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+
+
 
 /**
  *
  * @author Jose
  */
+public abstract class Cuenta {
 
-public abstract class Cuenta implements Comparable<Cuenta>{
     protected int numero;
-    protected String fechaApertura;
+    protected LocalDate fechaApertura;
     protected double saldo;
-    protected String fechaCancelacion;
+    protected LocalDate fechaCancelacion;
 
-    public Cuenta(int numero, String fechaApertura, double saldo) {
+    public Cuenta(int numero, LocalDate fechaApertura, double saldo, LocalDate fechaCancelacion) {
         this.numero = numero;
         this.fechaApertura = fechaApertura;
         this.saldo = saldo;
+        this.fechaCancelacion = fechaCancelacion;
     }
-    // Implementación de compareTo para ordenar por saldo
-    @Override
+
+   
+     // Implementación de compareTo para ordenar por saldo
     public int compareTo(Cuenta otraCuenta) {
         return Double.compare(this.saldo, otraCuenta.getSaldo());
     }
@@ -34,11 +41,11 @@ public abstract class Cuenta implements Comparable<Cuenta>{
         this.numero = numero;
     }
 
-    public String getFechaApertura() {
+    public LocalDate getFechaApertura() {
         return fechaApertura;
     }
 
-    public void setFechaApertura(String fechaApertura) {
+    public void setFechaApertura(LocalDate fechaApertura) {
         this.fechaApertura = fechaApertura;
     }
 
@@ -50,21 +57,21 @@ public abstract class Cuenta implements Comparable<Cuenta>{
         this.saldo = saldo;
     }
 
-    public String getFechaCancelacion() {
+    public LocalDate getFechaCancelacion() {
         return fechaCancelacion;
     }
 
-    public void setFechaCancelacion(String fechaCancelacion) {
+    public void setFechaCancelacion(LocalDate fechaCancelacion) {
         this.fechaCancelacion = fechaCancelacion;
     }
 
     @Override
     public String toString() {
-        return "Cuenta{" +
-                "numero=" + numero +
-                ", fechaApertura='" + fechaApertura + '\'' +
-                ", saldo=" + saldo +
-                ", fechaCancelacion='" + fechaCancelacion + '\'' +
-                '}';
+        return "Cuenta{" + "numero=" + numero + ", fechaApertura=" + fechaApertura + ", saldo=" + saldo + ", fechaCancelacion=" + fechaCancelacion + '}';
     }
+
+    
+
+   
+
 }
