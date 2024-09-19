@@ -83,27 +83,33 @@ public class Banco implements ServicioClientes {
 
     @Override
     public boolean eliminarCliente(int numero) {
-        return clientes.removeIf(cliente -> cliente.getNumero() == numero);
+        return clientes.parallelStream() // Usando un Stream paralelo
+                .filter(c -> c.getNumero() == numero)
+                .findFirst()
+                .map(clientes::remove)
+                .orElse(false);
     }
 
     @Override
     public Cliente consultaCliente(int numero) {
-        return clientes.stream()
-                .filter(cliente -> cliente.getNumero() == numero)
+        return clientes.parallelStream() // Usando un Stream paralelo
+                .filter(c -> c.getNumero() == numero)
                 .findFirst()
                 .orElse(null);
     }
 
     @Override
     public Cliente[] obtenerClientes() {
-        return clientes.toArray(new Cliente[0]);
+        return clientes.parallelStream() // Usando un Stream paralelo
+                .toArray(Cliente[]::new);
     }
-
+        
     @Override
     public Cliente buscarClientePorRFC(String rfc) {
-        return clientes.stream()
-                .filter(cliente -> cliente.getRfc().equals(rfc))
+        return clientes.parallelStream() // Usando un Stream paralelo
+                .filter(c -> c.getRfc().equals(rfc))
                 .findFirst()
                 .orElse(null);
     }
+
 }

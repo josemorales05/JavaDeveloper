@@ -24,7 +24,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-        import java.util.List;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -37,7 +37,37 @@ public class main {
 
     public static void main(String[] args) {
 
-        // Crear el ExecutorService con un solo hilo
+        Banco banco = new Banco("Banco X", new Domicilio("calle1",1, "bogota","bogota",4321), "RFCBanco", "5555555");
+        
+        // Crear clientes
+        Cliente cliente1 = new Cliente(1, "Jose", new Domicilio("calle2",2, "medellin","medellin",1234), "RFC1", "1234567890",null, LocalDate.of(1980, 1, 1));
+        Cliente cliente2 = new Cliente(2, "Angie", new Domicilio("calle3",3,"Cali","Cali",9876), "RFC2", "0987654321",null, LocalDate.of(1985, 6, 15));
+        
+        // Agregar clientes
+        banco.agregarCliente(cliente1);
+        banco.agregarCliente(cliente2);
+        
+        // Consultar clientes
+        Cliente consultado = banco.consultaCliente(1);
+        System.out.println("Cliente consultado: " + consultado);
+        
+        // Agregar cuentas
+        cliente1.agregarCuenta(new CuentaDeAhorros(1001, LocalDate.now(), 5000.0, null, 0.03));
+        cliente2.agregarCuenta(new CuentaDeCheque(1002, LocalDate.now(), 2000.0, null, 100.0));
+        
+        // Abonar y retirar dinero de las cuentas
+        cliente1.abonarCuenta(1001, 1000);
+        cliente2.retirar(1002, 500);
+        
+        // Mostrar cuentas
+        System.out.println("Cuentas del cliente 1: ");
+        Arrays.stream(cliente1.obtenerCuentas()).forEach(System.out::println);
+        
+        System.out.println("Cuentas del cliente 2: ");
+        Arrays.stream(cliente2.obtenerCuentas()).forEach(System.out::println);
+    }
+}
+       /* // Crear el ExecutorService con un solo hilo
         ExecutorService executor = Executors.newSingleThreadExecutor();
 
         // Crear el Callable para la lectura del archivo

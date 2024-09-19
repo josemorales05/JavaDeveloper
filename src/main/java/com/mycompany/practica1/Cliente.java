@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.practica1;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
  *
  * @author Jose
  */
-public class Cliente {
+public class Cliente implements ServicioCuentas {
 
     private int numero;
     private String nombre;
@@ -92,45 +93,45 @@ public class Cliente {
         return "Cliente{" + "numero=" + numero + ", nombre=" + nombre + ", domicilio=" + domicilio + ", rfc=" + rfc + ", telefono=" + telefono + ", cuentas=" + cuentas + ", fechaNacimiento=" + fechaNacimiento + '}';
     }
 
- 
-
-    
- 
-        public boolean agregarCuenta(Cuenta cuenta) {
+    @Override
+    public boolean agregarCuenta(Cuenta cuenta) {
         return cuentas.add(cuenta);
-        }
+    }
 
-        
-        public boolean cancelarCuenta(int numero) {
-        return cuentas.removeIf(cuenta -> cuenta.getNumero() == numero);
-        }
+    @Override
+    public boolean cancelarCuenta(int numero) {
+        return cuentas.parallelStream() // Usando un Stream paralelo
+                .filter(c -> c.getNumero() == numero)
+                .findFirst()
+                .map(cuentas::remove)
+                .orElse(false);
+    }
 
-        
-        public void abonarCuenta(int numero, double abono) {
-        cuentas.stream()
-                    .filter(cuenta -> cuenta.getNumero() == numero)
-                    .findFirst()
-                    .ifPresent(cuenta -> cuenta.setSaldo(cuenta.getSaldo() + abono));
-        }
+    @Override
+    public void abonarCuenta(int numero, double abono) {
+        cuentas.parallelStream() // Usando un Stream paralelo
+                .filter(c -> c.getNumero() == numero)
+                .findFirst()
+                .ifPresent(c -> c.setSaldo(c.getSaldo() + abono));
+    }
 
-        
-        public void retirar(int numero, double retiro) {
-        cuentas.stream()
-                    .filter(cuenta -> cuenta.getNumero() == numero)
-                    .findFirst()
-                    .ifPresent(cuenta -> cuenta.setSaldo(cuenta.getSaldo() - retiro));
-        }
+    @Override
+    public void retirar(int numero, double retiro) {
+        cuentas.parallelStream() // Usando un Stream paralelo
+                .filter(c -> c.getNumero() == numero)
+                .findFirst()
+                .ifPresent(c -> c.setSaldo(c.getSaldo() - retiro));
+    }
 
-        
-        public Cuenta[] obtenerCuentas() {
-        return cuentas.toArray(new Cuenta[0]);
-        }
+    @Override
+    public Cuenta[] obtenerCuentas() {
+        return cuentas.parallelStream() // Usando un Stream paralelo
+                .toArray(Cuenta[]::new);
+    }
 }
 
-
-
-        // Constructor privado para obligar a usar el patrón Builder
-        /*   private Cliente(Builder builder) {
+// Constructor privado para obligar a usar el patrón Builder
+/*   private Cliente(Builder builder) {
         this.numero = builder.numero;
         this.nombre = builder.nombre;
         this.domicilio = builder.domicilio;
