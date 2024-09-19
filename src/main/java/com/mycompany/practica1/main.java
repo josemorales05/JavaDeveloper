@@ -24,6 +24,10 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+        import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  *
@@ -33,8 +37,36 @@ public class main {
 
     public static void main(String[] args) {
 
+        // Crear el ExecutorService con un solo hilo
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+
+        // Crear el Callable para la lectura del archivo
+        CuentasArchivoCallable tarea = new CuentasArchivoCallable();
+
+        // Enviar la tarea al ExecutorService y obtener un Future
+        Future<List<Cuenta>> futureCuentas = executor.submit(tarea);
+
+        try {
+            // Esperar a que el hilo termine y obtener las cuentas
+            List<Cuenta> cuentas = futureCuentas.get();
+
+            // Imprimir las cuentas obtenidas
+            System.out.println("Cuentas leidas del archivo:");
+            for (Cuenta cuenta : cuentas) {
+                System.out.println(cuenta);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // Apagar el ExecutorService
+            executor.shutdown();
+        }
+    }
+}
+
          // Crear clientes
-        Cliente cliente1 = new Cliente(1,"cliente 1",new Domicilio("calle 30",100,"bogota","estado 1",2133),"RFC2","554545",null,LocalDate.of(1991,6,21));
+   /*     Cliente cliente1 = new Cliente(1,"cliente 1",new Domicilio("calle 30",100,"bogota","estado 1",2133),"RFC2","554545",null,LocalDate.of(1991,6,21));
         Cliente cliente2 = new Cliente(2, "Cliente 2", new Domicilio("Calle 40", 200, "medellin", "Estado 2", 23456), "RFC2", "0987654321",null, LocalDate.of(1990, 6, 20));
         Cliente cliente3 = new Cliente(3, "Cliente 3", new Domicilio("Calle 50", 300, "Cali", "Estado 3", 34567), "RFC3", "1122334455",null, LocalDate.of(1975, 7, 25));
 

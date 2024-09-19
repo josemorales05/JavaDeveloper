@@ -7,8 +7,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 
-
-
 /**
  *
  * @author Jose
@@ -67,11 +65,12 @@ public abstract class Cuenta {
 
     @Override
     public String toString() {
-        return "Cuenta{" + "numero=" + numero + ", fechaApertura=" + fechaApertura + ", saldo=" + saldo + ", fechaCancelacion=" + fechaCancelacion + '}';
-    }
-
-    
-
-   
+        return "Cuenta{" +
+                "numero=" + numero +
+                ", fechaApertura=" + fechaApertura +
+                ", saldo=" + saldo +
+                ", fechaCancelacion=" + fechaCancelacion +
+                '}';
+    } 
 
 }

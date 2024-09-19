@@ -15,8 +15,8 @@ public class CuentaDeAhorros extends Cuenta {
 
     private double tasaInteresMensual;
 
-    public CuentaDeAhorros(int numero, LocalDate fechaApertura, double saldo, LocalDate fechaCancelacion,double tasaInteresMensual) {
-        super(numero, fechaApertura, saldo, fechaCancelacion);
+    public CuentaDeAhorros(int numero, LocalDate fechaApertura, double saldo, LocalDate fechaCancelacion, double tasaInteresMensual) {
+        super(numero, fechaApertura, saldo, null);
         this.tasaInteresMensual = tasaInteresMensual;
     }
 
@@ -28,20 +28,21 @@ public class CuentaDeAhorros extends Cuenta {
         this.tasaInteresMensual = tasaInteresMensual;
     }
 
-  
-
-
     public double calcularInteres() {
         return saldo * tasaInteresMensual;
     }
 
     @Override
     public String toString() {
-        return "CuentaDeAhorros{" + "tasaInteresMensual=" + tasaInteresMensual + '}';
+        return "CuentaDeAhorros{"
+                + "numero=" + getNumero()
+                + // Llamada al método heredado para obtener el número
+                ", fechaApertura=" + getFechaApertura()
+                + // Llamada al método heredado para obtener la fecha de apertura
+                ", saldo=" + getSaldo()
+                + // Llamada al método heredado para obtener el saldo
+                ", tasaInteresMensual=" + tasaInteresMensual
+                + '}';
     }
-
-   
-
-   
 
 }

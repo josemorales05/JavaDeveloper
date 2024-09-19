@@ -15,7 +15,7 @@ public class CuentaDeCheque extends Cuenta {
     private double costoManejoMensual;
 
     public CuentaDeCheque(int numero, LocalDate fechaApertura, double saldo, LocalDate fechaCancelacion,double costoManejoMensual) {
-        super(numero, fechaApertura, saldo, fechaCancelacion);
+        super(numero, fechaApertura, saldo, null);
         this.costoManejoMensual = costoManejoMensual;
     }
 
@@ -29,12 +29,12 @@ public class CuentaDeCheque extends Cuenta {
 
     @Override
     public String toString() {
-        return "CuentaDeCheque{" + "costoManejoMensual=" + costoManejoMensual + '}';
-    }
-
-     
-
-
- 
+        return "CuentaDeCheque{" +
+                "numero=" + getNumero() + // Llamada al método heredado para obtener el número
+                ", fechaApertura=" + getFechaApertura() + // Llamada al método heredado para obtener la fecha de apertura
+                ", saldo=" + getSaldo() + // Llamada al método heredado para obtener el saldo
+                ", costoManejoMensual=" + costoManejoMensual +
+                '}';
+    } 
 }
 
