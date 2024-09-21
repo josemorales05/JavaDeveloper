@@ -28,6 +28,14 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -36,12 +44,78 @@ import java.util.concurrent.Future;
 public class main {
 
     public static void main(String[] args) {
+        // Crear los clientes
+        Cliente cliente1 = new Cliente(1, "Jose", new Domicilio("calle1",1,"Bogota","cundinarca",12345), "RFC1", "555123456",null, LocalDate.of(1980, 5, 15));
+        Cliente cliente2 = new Cliente(2, "Angie", new Domicilio("calle2",2,"medellin","Antioquia",54321), "RFC2", "555987654",null, LocalDate.of(1990, 6, 20));
+        Cliente cliente3 = new Cliente(3, "Ahyleen", new Domicilio("calle3",3,"Soacha","cundinarca",98765), "RFC3", "555345678",null, LocalDate.of(1975, 7, 25));
 
-        Banco banco = new Banco("Banco X", new Domicilio("calle1",1, "bogota","bogota",4321), "RFCBanco", "5555555");
+
+        List<Cliente> clientes = new ArrayList<>();
+        clientes.add(cliente1);
+        clientes.add(cliente2);
+        clientes.add(cliente3);
+
+        // Conectar a la base de datos y extraer las cuentas
+        String url = "jdbc:mysql://localhost:3306/practica12";
+        String user = "root"; // Cambia por tu usuario
+        String password = "123456"; // Cambia por tu contraseña
+
+        try (Connection connection = DriverManager.getConnection(url, user, password);
+             Statement statement = connection.createStatement()) {
+
+            String query = "SELECT numero, fecha, saldo, intereses, cliente, tipoCuenta FROM cuentas";
+            ResultSet resultSet = statement.executeQuery(query);
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+            while (resultSet.next()) {
+                int numero = resultSet.getInt("numero");
+                LocalDate fechaApertura = LocalDate.parse(resultSet.getString("fecha"), formatter);
+                double saldo = resultSet.getDouble("saldo");
+                double intereses = resultSet.getDouble("intereses");
+                int clienteId = resultSet.getInt("cliente");
+                String tipoCuenta = resultSet.getString("tipoCuenta");
+
+                // Buscar el cliente correspondiente
+                Cliente cliente = clientes.stream()
+                        .filter(c -> c.getNumero() == clienteId)
+                        .findFirst()
+                        .orElse(null);
+
+                if (cliente != null) {
+                    if (tipoCuenta.equals("CA")) {
+                        CuentaDeAhorros cuentaAhorros = new CuentaDeAhorros(numero, fechaApertura, saldo, null, intereses);
+                        cliente.agregarCuenta(cuentaAhorros);
+                    } else if (tipoCuenta.equals("CC")) {
+                        CuentaDeCheque cuentaCheque = new CuentaDeCheque(numero, fechaApertura, saldo, null, intereses);
+                        cliente.agregarCuenta(cuentaCheque);
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Mostrar las cuentas de cada cliente
+        for (Cliente cliente : clientes) {
+            System.out.println("Cuentas del cliente " + cliente.getNombre() + ":");
+            for (Cuenta cuenta : cliente.obtenerCuentas()) {
+                System.out.println(cuenta);
+            }
+        }
+    }
+}
+
+
+
+    
+
+      /*  Banco banco = new Banco("Banco X", new Domicilio("calle1",1, "bogota","bogota",4321), "RFCBanco", "5555555");
         
         // Crear clientes
         Cliente cliente1 = new Cliente(1, "Jose", new Domicilio("calle2",2, "medellin","medellin",1234), "RFC1", "1234567890",null, LocalDate.of(1980, 1, 1));
-        Cliente cliente2 = new Cliente(2, "Angie", new Domicilio("calle3",3,"Cali","Cali",9876), "RFC2", "0987654321",null, LocalDate.of(1985, 6, 15));
+        
         
         // Agregar clientes
         banco.agregarCliente(cliente1);
